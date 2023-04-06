@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Movements - {{ machine_id }}</title>
+</head>
+<body>
+    <h1>Machine Movements - {{ machine_id }}</h1>
+    <button onclick="getTotalMachineCount()">Get Total Machine Count</button>
+    <p>Total Machine Count: <span id="total-machine-count">{{ total_machine_count }}</span></p>
+    <table>
+        <thead>
+            <tr>
+                <th>ID - {{ id }}</th>
+                <th>Machine ID- {{ machine_id }}</th>
+                <th>Person Name - {{ person_name }}</th>
+                <th>Transaction Date - {{ transaction_date }}</th>
+                <th><p>Status - {{ status }}</p></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for movement in movements %}
+                <tr>
+                    <td>{{ movement[0] }}</td>
+                    <td>{{ movement[1] }}</td>
+                    <td>{{ movement[2] }}</td>
+                    <td>{{ movement[3].strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                    <td>{{ movement[4] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        function getTotalMachineCount() {
+            fetch('/machine_movements')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-machine-count').textContent = data.total_machine_count;
+                })
+                .catch(error => console.error(error));
+        }
+    </script>
+</body>
+</html>
